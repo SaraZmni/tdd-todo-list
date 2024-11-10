@@ -1,8 +1,0 @@
-package.json
-package-lock.json
-webpack.config.js
-build
-public
-node_modules
-nginx
-.vscode
