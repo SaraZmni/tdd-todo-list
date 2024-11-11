@@ -20,25 +20,37 @@ function App() {
       priority: "p1",
     },
   ]);
+
   const onAddTask = () => {
-    setTasks([
-      ...tasks,
-      { id: new Date().getTime(), title: taskName, isCompleted: false },
-    ]);
+    if (taskName.trim()) {
+      setTasks([
+        ...tasks,
+        { id: new Date().getTime(), title: taskName, isCompleted: false },
+      ]);
+      setTaskName("");
+    }
   };
+
   return (
-    <div>
-      <h1>Tasks</h1>
-      <label htmlFor="task-input">Add Task: </label>
-      <input
-        id="task-input"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-      />
-      <button onClick={onAddTask}>Add</button>
-      <ul>
+    <div className="app-container">
+      <h1 className="app-title">Tasks</h1>
+      <div className="task-input-container">
+        <label htmlFor="task-input">Add Task: </label>
+        <input
+          id="task-input"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          className="task-input"
+        />
+        <button onClick={onAddTask} className="add-button">
+          Add
+        </button>
+      </div>
+      <ul className="task-list">
         {tasks.map((task) => (
-          <li key={task.id}>{task.title}</li>
+          <li key={task.id} className="task-item">
+            {task.title}
+          </li>
         ))}
       </ul>
     </div>
