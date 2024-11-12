@@ -1,34 +1,59 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+
+type Priority = "p1" | "p2" | "p3";
+
+type Task = {
+  id: number;
+  title: string;
+  isCompleted: boolean;
+  priority?: Priority;
+};
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [taskName, setTaskName] = useState("");
+  const [tasks, setTasks] = useState<Task[]>([
+    {
+      id: 1,
+      title: "Learn React",
+      isCompleted: true,
+      priority: "p1",
+    },
+  ]);
+
+  const onAddTask = () => {
+    if (taskName.trim()) {
+      setTasks([
+        ...tasks,
+        { id: new Date().getTime(), title: taskName, isCompleted: false },
+      ]);
+      setTaskName("");
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="app-container">
+      <h1 className="app-title">Tasks</h1>
+      <div className="task-input-container">
+        <label htmlFor="task-input">Add Task: </label>
+        <input
+          id="task-input"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          className="task-input"
+        />
+        <button onClick={onAddTask} className="add-button">
+          Add
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <ul className="task-list">
+        {tasks.map((task) => (
+          <li key={task.id} className="task-item">
+            {task.title}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
