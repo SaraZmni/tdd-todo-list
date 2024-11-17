@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, test } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import App from "./App";
 afterEach(cleanup);
@@ -15,16 +16,19 @@ describe("App", () => {
     expect(button).toBeInTheDocument();
   });
 
-  test("should clear the input field after adding a task", () => {
+  test("should clear the input field after adding a task", async () => {
+    const user = userEvent.setup();
     render(<App />);
 
     const input = screen.getByRole("textbox", { name: "Add Task:" });
     const button = screen.getByRole("button", { name: "Add" });
 
-    fireEvent.change(input, { target: { value: "Test New Task" } });
-    fireEvent.click(button);
+    await user.type(input, "New Task");
+    await user.click(button);
 
-    expect(screen.getByText("Test New Task")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("New Task")).toBeInTheDocument();
+    });
   });
   test("should not add an empty task", () => {});
   test("should add a task by pressing the enter key", () => {});
