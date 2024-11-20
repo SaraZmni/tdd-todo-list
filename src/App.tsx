@@ -2,6 +2,9 @@ import { useState } from "react";
 import "./App.css";
 import { Task } from "./types";
 import AddTask from "./AddTask";
+import TaskList from "./TaskList";
+import TaskListItem from "./TaskListItem";
+import TaskListHeader from "./TaskListHeader";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -23,13 +26,12 @@ function App() {
       <div className="task-input-container">
         <AddTask onAddTask={onAddTask} />
       </div>
-      <ul className="task-list">
+      <TaskList>
+        <TaskListHeader count={tasks.length} />
         {tasks.map((task) => (
-          <li key={task.id} className="task-item">
-            {task.title}
-          </li>
+          <TaskListItem key={task.id}>{task.title}</TaskListItem>
         ))}
-      </ul>
+      </TaskList>
     </div>
   );
 }
