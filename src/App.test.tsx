@@ -71,3 +71,77 @@ describe("App", () => {
     });
   });
 });
+
+test("should render remove button for each task", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const input = screen.getByRole("textbox", { name: "Add Task:" });
+  const button = screen.getByRole("button", { name: "Add" });
+
+  await user.type(input, "New Task");
+  await user.click(button);
+
+  await waitFor(() => {
+    const removeButton = screen.getByRole("button", { name: "Remove" });
+    expect(removeButton).toBeInTheDocument();
+  });
+});
+
+test("should remove task when remove button is clicked", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const input = screen.getByRole("textbox", { name: "Add Task:" });
+  const addButton = screen.getByRole("button", { name: "Add" });
+
+  await user.type(input, "New Task");
+  await user.click(addButton);
+
+  const removeButton = await screen.findByRole("button", { name: "Remove" });
+  await user.click(removeButton);
+
+  await waitFor(() => {
+    expect(screen.queryByText("New Task")).not.toBeInTheDocument();
+  });
+});
+
+test("should render checkbox for each task", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const input = screen.getByRole("textbox", { name: "Add Task:" });
+  const button = screen.getByRole("button", { name: "Add" });
+
+  await user.type(input, "New Task");
+  await user.click(button);
+
+  await waitFor(() => {
+    const checkbox = screen.getByRole("checkbox");
+    expect(checkbox).toBeInTheDocument();
+  });
+});
+
+test("should toggle task completion when checkbox is clicked", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+
+  const input = screen.getByRole("textbox", { name: "Add Task:" });
+  const button = screen.getByRole("button", { name: "Add" });
+
+  await user.type(input, "New Task");
+  await user.click(button);
+
+  const checkbox = await screen.findByRole("checkbox");
+  await user.click(checkbox);
+
+  await waitFor(() => {
+    expect(checkbox).toBeChecked();
+  });
+
+  await user.click(checkbox);
+
+  await waitFor(() => {
+    expect(checkbox).not.toBeChecked();
+  });
+});

@@ -54,4 +54,40 @@
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.task-checkbox {
+  margin-right: 10px;
+}
+
+.task-title {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.task-title.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.remove-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #d32f2f;
+}
+
+.task-list-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
