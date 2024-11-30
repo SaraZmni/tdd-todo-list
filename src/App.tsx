@@ -20,6 +20,18 @@ function App() {
     ]);
   };
 
+  const onRemoveTask = (id: number) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const onToggleTask = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task,
+      ),
+    );
+  };
+
   return (
     <div className="app-container">
       <h1 className="app-title">Tasks</h1>
@@ -29,7 +41,15 @@ function App() {
       <TaskList>
         <TaskListHeader count={tasks.length} />
         {tasks.map((task) => (
-          <TaskListItem key={task.id}>{task.title}</TaskListItem>
+          // <TaskListItem key={task.id}>{task.title}</TaskListItem>
+          <TaskListItem
+            key={task.id}
+            task={task}
+            onRemove={onRemoveTask}
+            onToggle={onToggleTask}
+          >
+            {task.title}
+          </TaskListItem>
         ))}
       </TaskList>
     </div>
